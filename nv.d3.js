@@ -4288,7 +4288,7 @@ nv.models.lineWithFocusChart = function() {
                '<p>' +  y + ' at ' + x + '</p>'
       }
     , noData = "No Data Available."
-    , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush')
+    , dispatch = d3.dispatch('tooltipShow', 'tooltipHide', 'brush', 'elementClick')
     ;
 
   lines
@@ -4587,6 +4587,16 @@ nv.models.lineWithFocusChart = function() {
       dispatch.on('tooltipShow', function(e) {
         if (tooltips) showTooltip(e, that.parentNode);
       });
+      
+      lines.scatter.dispatch.on('elementClick', function(d,i) {
+    	  dispatch.elementClick({
+            point: d,
+            e: d3.event,
+            x: d.point.x,
+            y: d.point.y,
+            content : d.series.key
+          });
+      	});
 
       //============================================================
 
